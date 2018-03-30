@@ -1,3 +1,5 @@
+# Created by Tomasz Puncewicz
+
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
 from time import sleep
