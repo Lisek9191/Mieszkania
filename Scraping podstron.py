@@ -1,5 +1,7 @@
 # Created by Tomasz Puncewicz
 
+# Program służy do ściągania pod stron. Należy użyć go jako pierwszego i wyniki wkleić do zmiennej "strony" w programie "sciaganie informacji na temat mieszkania"
+
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
 from time import sleep
