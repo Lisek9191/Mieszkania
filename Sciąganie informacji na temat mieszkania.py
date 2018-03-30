@@ -1,3 +1,5 @@
+# Created by Tomasz Puncewicz
+
 #Plik ściąga dane do wklepania od razu do bazy danych. Prawdopodobnie należy dodać na samym końcu wyjściowego pliku ";"
 
 from urllib.request import Request, urlopen
