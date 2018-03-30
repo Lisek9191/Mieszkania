@@ -4,6 +4,8 @@
 # Programy powstały w celach demonstracyjnych. Zakazuje się wykorzystywania go w jakichkolwiek celach, zarówno w komerycjnych i niekomerycjnych.
 
 
+# Projekt ma na celu analizę rynku mieszkań w Łodzi.
+
 # Plan Działania:
 # 1) Ściągnie podstron programem "Scraping podstron"
 # 2) Wklejenie wyników do zmiennej "strony" w pliku "ściąganie informacji na temat mieszkań" oraz skasowanie ostatniego przecinka
