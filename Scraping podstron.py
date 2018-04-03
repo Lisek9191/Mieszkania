@@ -32,7 +32,7 @@ for numer in range(1,102)
 	    
 
 	    print("'"+adress+"'"+",")
-	    f.write(adress+'\n')
+	    f.write("'"+adress+"'"+","+'\n')
 
 f.close
 
