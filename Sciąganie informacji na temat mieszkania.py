@@ -1,17 +1,15 @@
-# Created by Tomasz Puncewicz
-
-#Plik ściąga dane do wklepania od razu do bazy danych. Prawdopodobnie należy dodać na samym końcu wyjściowego pliku ";"
 
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup as soup
 
+web=[]
 filename='mieszkanie.txt'
 f=open(filename,'w',encoding="utf-8")
 
-#wklej do "strony" wyniki z programu 'scrapowanie podstron'
 
-strony=['https://www.otodom.pl/oferta/wlasnosciowe-spoldzielcze-37-20-m-bezposrednio-ID3Athp.html#173da81aa9',
-'https://www.otodom.pl/oferta/mieszkanie-3-pokojowe-od-dewelopera-pod-klucz-ID3riOM.html#173da81aa9']
+
+strony=['https://www.otodom.pl/oferta/pilne-3-pokoje-79m-konstancin-jeziorna-ul-zgoda-ID2doKz.html#298a176578',
+'https://www.otodom.pl/oferta/apartament-31-33m2-miejsce-postojowe-pogorzelica-ID3y8Of.html#298a176578']
 for strona in strony:
     
     req=Request(strona, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'})
@@ -66,14 +64,7 @@ for strona in strony:
     except IndexError:
             informacje_dodatkowe1=""
                 
-    print(osiedle)
-    print(cena)
-    print(powierzchnia)
-    print(pietro)
-    print(pokoje)
-    print(informacje)
-    print(informacje_dodatkowe0)
-    print(informacje_dodatkowe1)
+    web.append(strona)
 
     f.write('INSERT INTO mieszkania VALUES (')
     f.write("'"+osiedle+"'"+","+"'"+cena+"'"+","+"'"+powierzchnia+"'"+","+"'"+pietro+"'"+","+"'"+pokoje+"'"+","+"'"+informacje+"'"+","+"'"+informacje_dodatkowe0+"'"+","+"'"+informacje_dodatkowe1+"'"+"\n")
@@ -81,4 +72,6 @@ for strona in strony:
     
 f.close()
 
-
+print("W razie wystąpienia błedu w ściąganiu, ponów próbę z wynikami wyświetlonymi poniżej")
+zostalo_do_sciagniecia=set(strony)-set(web)
+print(zostalo_do_sciagniecia)
