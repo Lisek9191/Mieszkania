@@ -24,4 +24,4 @@
       
 # oraz wklejenie wyników drugiego programu. Należy usunąć przecinek oraz dodać ";"
 # 5) Zmiana struktury bazy, usuwanie złych rekordów
-# 6) Analiza danych w programie MySql i Ms Excel. Wyniki powinny znajdować się na stronie "https://tomaszpuncewicz.blogspot.com/"
+# 6) Analiza danych w programie MySql i R.
