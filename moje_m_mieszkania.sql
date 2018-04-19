@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: moje_m
+-- Host: localhost    Database: moje_m.
 -- ------------------------------------------------------
 -- Server version	5.7.21-log
 
