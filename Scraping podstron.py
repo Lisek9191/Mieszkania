@@ -1,4 +1,4 @@
-# Created by Tomasz Puncewicz
+# Created by Tomasz Puncewicz.
 
 # Program służy do ściągania pod stron. Należy użyć go jako pierwszego i wyniki wkleić do zmiennej "strony" w programie "sciaganie informacji na temat mieszkania"
 
