@@ -44,10 +44,9 @@ Encoding(df$Stan_Wykończenia)<-"UTF-8"
 Encoding(df$Forma_Własności)<-"UTF-8"
 Encoding(df$Pokoje)<-"UTF-8"
 
-# Eliminacja wartości odstających i uporzadkowanie
+# Uporzadkowanie danych
 ggplot(df, aes(x=Cena, y=Powierzchnia))+geom_point()
-lodz<-df%>% filter(Cena>49999 & Cena<1100000)
-lodz<-lodz%>% filter(Powierzchnia<300)
+lodz<-df
 lodz$Osiedle<-reorder(lodz$Osiedle, lodz$Cena, median)
 # Podział danych na mniejsze partie
 
@@ -63,8 +62,7 @@ Górna<-SameOsiedla %>%
     filter(Osiedle == "Górna")
 Polesie<-SameOsiedla %>% 
     filter(Osiedle == "Polesie")
-NieznaneOś<-SameOsiedla %>% 
-    filter(Osiedle == "Nieznane")
+
 
 # KIlka wykresów
 ggplot(lodz, aes(x=Powierzchnia, y=Cena, col=Osiedle))+geom_point()+geom_smooth(se=FALSE, size=2, method="lm", formula=y~poly(x,2))
@@ -148,19 +146,14 @@ scale_x_continuous(breaks=c(seq(0, 250, 10)), labels=function(x) format(x, scien
 ggplot(lodz, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar(position="fill")
 ggplot(lodz, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 
-ggplot(Bałuty, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Bałuty, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 
-ggplot(Widzew, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Widzew, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 
-ggplot(Polesie, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Polesie, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 
-ggplot(Śródmieście, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Śródmieście, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 
-ggplot(Górna, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Górna, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 
 
@@ -169,32 +162,60 @@ ggplot(Górna, aes(x=Rodzaj_zabudowy, fill=Osiedle))+geom_bar()
 ggplot(lodz, aes(x=Pokoje, fill=Osiedle))+geom_bar(position="fill")
 ggplot(lodz, aes(x=Pokoje, fill=Osiedle))+geom_bar()
 
-ggplot(Bałuty, aes(x=Pokoje, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Bałuty, aes(x=Pokoje, fill=Osiedle))+geom_bar()
 
-ggplot(Widzew, aes(x=Pokoje, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Widzew, aes(x=Pokoje, fill=Osiedle))+geom_bar()
 
-ggplot(Polesie, aes(x=Pokoje, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Polesie, aes(x=Pokoje, fill=Osiedle))+geom_bar()
 
-ggplot(Śródmieście, aes(x=Pokoje, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Śródmieście, aes(x=Pokoje, fill=Osiedle))+geom_bar()
 
-ggplot(Górna, aes(x=Pokoje, fill=Osiedle))+geom_bar(position="fill")
 ggplot(Górna, aes(x=Pokoje, fill=Osiedle))+geom_bar()
 
 
+## Ostateczne czyszczenie tabeli:
+# Usuwamy mieszkania z liczbą pokoi większa niż 5.
+# Usuwamy domy wolnostojące, lofty, szeregowce, NA, plomby(choć wiekszość pewnie moglibyśmy zakwalifikować jako kamienice, nie chcę przypadkiem ubrudzić danych).
+# Mieszkania z metrażem większym niż 100metrów.
+# Usuwamy oferty z ceną powyżej 1mln zł i poniżej 50tys zł.
+
+SameOsiedla<-SameOsiedla %>% filter(Pokoje<5, Rodzaj_zabudowy=='apartamentowiec'| Rodzaj_zabudowy=='blok' | Rodzaj_zabudowy=='kamienica', Powierzchnia<101, Cena>49999, Cena<1000001)
+Bałuty<-SameOsiedla %>% 
+    filter(Osiedle == "Bałuty")
+Widzew<-SameOsiedla %>% 
+    filter(Osiedle == "Widzew")
+Śródmieście<-SameOsiedla %>% 
+    filter(Osiedle == "Śródmieście")
+Górna<-SameOsiedla %>% 
+    filter(Osiedle == "Górna")
+Polesie<-SameOsiedla %>% 
+    filter(Osiedle == "Polesie")
 
 ####### Wykres punktowy pietro do ceny za metr kwadtarowy
 
-ggplot(lodz, aes(x=Piętro, y=cenazametr, col=Piętro))+geom_point()
+
+## Sprawdzmy o jakim metrazu sa najtańsze mieszkania jesli wezmiemy pod uwage cene za metr
+SameOsiedla %>% 
+   ggplot() +
+   geom_point(aes(Powierzchnia, cenazametr), alpha=0.1) +
+   geom_smooth(aes(Powierzchnia, cenazametr)) +
+   labs(x="Powierzchnia", y="Cena za m2")
 
 
+SameOsiedla %>% 
+   ggplot() +
+   geom_point(aes(Powierzchnia, cenazametr), alpha=0.1) +
+   geom_smooth(aes(Powierzchnia, cenazametr)) +
+   coord_cartesian(xlim=c(25, 50), ylim=c(4500, 6000)) +
+   labs(x="Powierzchnia", y="Cena za m2")
 
 
-
-
+SameOsiedla %>% 
+   ggplot() +
+   geom_point(aes(Powierzchnia, cenazametr), alpha=0.1) +
+   geom_smooth(aes(Powierzchnia, cenazametr, col=Osiedle)) +
+   coord_cartesian(xlim=c(25, 50), ylim=c(4500, 6000)) +
+   labs(x="Powierzchnia", y="Cena za m2")
 
 
 
